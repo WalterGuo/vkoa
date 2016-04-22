@@ -7,8 +7,7 @@ const app = new koa();
 const config = require('./config/environment');
 const mongoose = require("mongoose");
 
-require('./config/koa')(app);
-require('./routes')(app);
+
 let vkoaMongo = mongoose.createConnection(config.mongo.uri);
 vkoaMongo.on('error', function(err) {
     console.error('blogConn mongodb connection failed!', err);
@@ -18,7 +17,8 @@ vkoaMongo.on('error', function(err) {
 })
 global.vkoaMongo = vkoaMongo;
 
-
+require('./config/koa')(app);
+require('./routes')(app);
 
 if (!module.parent) {
   app.listen(config.port, config.ip, function() {

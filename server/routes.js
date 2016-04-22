@@ -3,8 +3,8 @@
 const mount = require('koa-mount');
 
 module.exports = function(app) {
-
-  app.use(mount('/api/book', require('./api/book')));
+  let book = require('./api/book');
+  app.use(mount('/api/book', book));
 
 
   app.use(function*(next) {
