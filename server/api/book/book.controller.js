@@ -9,3 +9,10 @@ exports.find = function*(ctx,next){
 
   // this.body = yield this.render('404', {'books': books});
 }
+exports.create = function*(ctx,next){
+  console.log(ctx);
+  var books = yield Book.find({});
+  this.response.body = "hello world!";
+
+  // this.body = yield this.render('404', {'books': books});
+}
