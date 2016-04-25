@@ -5,7 +5,7 @@
 module.exports = {
   // MongoDB connection options
   mongo: {
-    uri: 'mongodb://videojj:c0ed2059079ce7345594791a5c9293ed@test.videojj.com:20001/blog',
+    uri: 'mongodb://localhost:27017/vkoa',
     options: {
       db: {
         safe: true

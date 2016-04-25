@@ -3,19 +3,36 @@
 let Book = require('./book.model');
 
 exports.find = function*(next){
-  console.log(this.body);
-  var books = yield Book.find({});
-  this.response.body = "hello world!";
+  var books = yield Book.find().exec();
+  // this.response.body = "hello world!";
   this.response.body = {
-    msg:"hello world!"
+    msg:books
   };
 
   // this.body = yield this.render('404', {'books': books});
 }
 exports.create = function*(ctx,next){
-  console.log(ctx);
-  var books = yield Book.find({});
-  this.response.body = "hello world!";
 
-  // this.body = yield this.render('404', {'books': books});
+  let input =this.request.body;
+  let poster = "http://7xr9m4.com1.z0.glb.clouddn.com/%40%2Fcustomer%2F2%2F%E6%B1%A4%E5%94%AF.jpg";
+  let option = {
+    title:input.title,
+    content:input.content,
+    author:input.author,
+    description:input.description,
+    poster:input.poster?input.poster:poster
+  }
+  let books ;
+  try {
+    let b = new Book(option);
+    books = yield b.save();
+  } catch (err) {
+    this.throw(err);
+  }
+  this.status = 200;
+  this.response.body = {
+    status:0,
+    msg:"success"
+  };
+
 }

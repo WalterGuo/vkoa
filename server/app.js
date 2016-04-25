@@ -7,13 +7,12 @@ const app = new koa();
 const config = require('./config/environment');
 const mongoose = require("mongoose");
 
-
 let vkoaMongo = mongoose.createConnection(config.mongo.uri);
 vkoaMongo.on('error', function(err) {
-    console.error('blogConn mongodb connection failed!', err);
-    blogConn.db.close();
+    console.error('vkoaMongo mongodb connection failed!', err);
+    vkoaMongo.db.close();
   }).on('connected', function() {
-    console.log('blogConn mongodb connect success') //, blogConn);
+    console.log('vkoaMongo mongodb connect success') //, blogConn);
 })
 global.vkoaMongo = vkoaMongo;
 

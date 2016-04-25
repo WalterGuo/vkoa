@@ -4,7 +4,6 @@ let mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 let BookSchema = new Schema({
-  cat: Number, // 1 new 2 blog
   title: {
     type: String,
   },
@@ -17,9 +16,8 @@ let BookSchema = new Schema({
   description: {
     type: String
   },
-  hidden: {
-    type: Number,
-    default: 0 // 0 显示 1 隐藏
+  poster:{
+    type:String
   }
 });
 
