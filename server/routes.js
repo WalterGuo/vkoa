@@ -4,32 +4,6 @@ const mount = require('koa-mount');
 
 module.exports = function(app) {
 
-  // app.use(function*(next) {
-  //   console.log('>> one');
-  //   yield next;
-  //   console.log('<< one');
-  // });
-  //
-  // app.use(function*(next) {
-  //   console.log('>> two');
-  //   this.body = 'two';
-  //   yield next;
-  //   console.log('<< two');
-  // });
-  //
-  // app.use(function*(next) {
-  //   console.log('>> three');
-  //   yield next;
-  //   console.log('<< three');
-  // });
-  //
-  // app.use(function*(next) {
-  //   var start = new Date();
-  //   yield next;
-  //   var ms = new Date() - start;
-  //   this.set('X-Response-Time', ms + 'ms');
-  // });
-
   app.use(function*(next) {
     try {
       yield next;

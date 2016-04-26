@@ -6,6 +6,7 @@ exports.find = function*(next){
   var books = yield Book.find().exec();
   // this.response.body = "hello world!";
   this.response.body = {
+    status:0,
     msg:books
   };
 
@@ -26,13 +27,14 @@ exports.create = function*(ctx,next){
   try {
     let b = new Book(option);
     books = yield b.save();
+    this.status = 200;
+    this.response.body = {
+      status:0,
+      msg:books
+    };
+
   } catch (err) {
     this.throw(err);
   }
-  this.status = 200;
-  this.response.body = {
-    status:0,
-    msg:"success"
-  };
 
 }
