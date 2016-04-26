@@ -3,6 +3,8 @@
 let User = require('./user.model');
 let omitList = ['salt', 'hashedPassword', 'activationCode', 'resetPasswordToken', 'resetPasswordExpires'];
 
+let mailUtil = require('../../util/mail');
+
 exports.find = function*(next){
   var users = yield User.find({},'-salt -hashedPassword').exec();
   this.response.body = {
@@ -34,15 +36,17 @@ exports.register = function *(next){
       phone:input.phone,
       sex:input.sex
     }
+
     let u = new User(option);
     user = yield u.save();
-    this.status = 200;
-    this.response.body = {
-      status:0,
-      msg:_.omit(user, omitList)
-    };
+    yield mailUtil.sendValidateCode(user.email);
   } catch (err) {
     this.throw(err);
   }
+  this.status = 200;
+  this.response.body = {
+    status:0,
+    msg:_.omit(user, omitList)
+  };
 
 }
