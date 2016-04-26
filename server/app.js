@@ -6,7 +6,7 @@ const koa = require('koa');
 const app = new koa();
 const config = require('./config/environment');
 const mongoose = require("mongoose");
-
+const _ = require('lodash');
 let vkoaMongo = mongoose.createConnection(config.mongo.uri);
 vkoaMongo.on('error', function(err) {
     console.error('vkoaMongo mongodb connection failed!', err);
@@ -15,6 +15,7 @@ vkoaMongo.on('error', function(err) {
     console.log('vkoaMongo mongodb connect success') //, blogConn);
 })
 global.vkoaMongo = vkoaMongo;
+global._ = _;
 
 require('./config/koa')(app);
 require('./routes')(app);
