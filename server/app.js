@@ -16,6 +16,9 @@ vkoaMongo.on('error', function(err) {
 })
 global.vkoaMongo = vkoaMongo;
 global._ = _;
+global.config = config;
+global.redis = require('./util/redis');
+
 
 require('./config/koa')(app);
 require('./routes')(app);

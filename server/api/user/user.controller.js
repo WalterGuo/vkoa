@@ -36,10 +36,8 @@ exports.register = function *(next){
       phone:input.phone,
       sex:input.sex
     }
-
-    let u = new User(option);
-    user = yield u.save();
-    yield mailUtil.sendValidateCode(user.email);
+    yield mailUtil.sendValidateCode(input.email);
+    user = new User(option).save();
   } catch (err) {
     this.throw(err);
   }
