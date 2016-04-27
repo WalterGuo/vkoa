@@ -13,6 +13,12 @@ module.exports = function(app) {
       this.app.emit('error', err, this);
     }
   });
+  app.use(function*(next) {
+    var start = new Date;
+    yield next;
+    var ms = new Date - start;
+    this.set('X-Response-Time', ms + 'ms');
+  });
   let book = require('./api/book');
   let user = require('./api/user');
   app.use(mount('/api/book', book));

@@ -8,7 +8,11 @@ let base = {
   env: process.env.NODE_ENV,
   root: path.normalize(__dirname + '/../../..'),
   port: process.env.PORT || 1234,
-  logType : 'dev'
+  logType : 'dev',
+  secrets  : {
+    session: 'virgo-secret',
+    token_secret:'virgotoken'
+  },
 };
 
 
