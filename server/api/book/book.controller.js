@@ -27,7 +27,7 @@ exports.create = function*(ctx,next){
   try {
     let b = new Book(option);
     books = yield b.save();
-    this.status = 200;
+    this.status = 201;
     this.response.body = {
       status:0,
       msg:books

@@ -41,7 +41,7 @@ exports.register = function *(next){
   } catch (err) {
     this.throw(err);
   }
-  this.status = 200;
+  this.status = 201;
   this.response.body = {
     status:0,
     msg:_.omit(user, omitList)
