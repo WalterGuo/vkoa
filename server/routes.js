@@ -27,6 +27,7 @@ module.exports = function(app) {
   app.use(function*() {
     var err = new Error();
     err.status = 404;
+    this.status = 404;
     this.body = yield this.render('404', {
       error: err
     });
