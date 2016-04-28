@@ -4,7 +4,7 @@
   "description": "koa",
   "main": "server/app.js",
   "scripts": {
-    "dev": "NODE_ENV=development node --debug --harmony server/app.js"
+    "dev": "NODE_ENV=development nodemon --debug --harmony server/app.js"
   },
   "keywords": [
     "koa",
@@ -27,6 +27,7 @@
     "mongoose": "^4.4.12",
     "mongoose-createdmodified": "0.0.2",
     "nodemailer": "^2.3.2",
+    "nodemon": "^1.9.1",
     "path": "^0.12.7"
   },
   "repository": {},
