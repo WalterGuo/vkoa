@@ -29,6 +29,7 @@
     "koa-render": "^0.2.1",
     "koa-router": "^5.4.0",
     "koa-static": "^2.0.0",
+    "koa-webpack-dev-middleware": "^1.2.0",
     "lodash": "^4.11.1",
     "mongoose": "^4.4.12",
     "mongoose-createdmodified": "0.0.2",
@@ -39,7 +40,8 @@
     "react-dom": "^15.0.1",
     "react-router": "^2.3.0",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.0"
+    "webpack": "^1.13.0",
+    "webpack-hot-middleware": "^2.10.0"
   },
   "repository": {},
   "private": true,

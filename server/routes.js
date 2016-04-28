@@ -13,6 +13,7 @@ module.exports = function(app) {
       this.app.emit('error', err, this);
     }
   });
+
   app.use(function*(next) {
     var start = new Date;
     yield next;
