@@ -1,48 +1,71 @@
-// import webpack from 'webpack';
-// import path from 'path';
-'use strict';
+const path = require('path');
+const merge = require('webpack-merge');
+const webpack = require('webpack');
+const NpmInstallPlugin = require('npm-install-webpack-plugin');
 
-let webpack = require('webpack');
-let path = require('path');
-let publicPath = 'http://localhost:1235/';
-let hotMiddlewareScript = 'webpack-hot-middleware/client?http://localhost:1235/__webpack_hmr';
-module.exports = {
+const TARGET = process.env.npm_lifecycle_event;
+const PATHS = {
+  app: path.join(__dirname, 'client/application'),
+  build: path.join(__dirname, '.tmp/build')
+};
+
+process.env.BABEL_ENV = TARGET;
+
+const common = {
   entry: {
-    index: [hotMiddlewareScript,'./client/application/index.js'],
+    app: PATHS.app
+  },
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
+  output: {
+    path: PATHS.build,
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
-    {
-      test: /\.js/,
-      loader: 'babel-loader',
-      query: {
-        presets: ['react', 'es2015'],
+      {
+        test: /\.css$/,
+        loaders: ['style', 'css'],
+        include: PATHS.app
+      },
+      {
+        test: /\.jsx?$/,
+        loaders: ['babel?cacheDirectory'],
+        include: PATHS.app
       }
-    }, ]
-  },
-  devServer: {
-    hot: true,
-    noInfo: false,
-    inline: true,
-    publicPath: publicPath,
-    stats: {
-      cached: false,
-      colors: true
-    }
-  },
-  externals: {
-    'react': 'React',
-    'react-dom': 'ReactDOM',
-    'react-router': 'ReactRouter',
-  },
-  output: {
-    path: path.resolve('.tmp/build'),
-    filename: '[name].bundle.js',
-  },
-  devtool: 'source-map',
-  plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
-  ],
+    ]
+  }
+};
+
+if(TARGET === 'start' || !TARGET) {
+  module.exports = merge(common, {
+    devtool: 'eval-source-map',
+    devServer: {
+      contentBase: PATHS.build,
+
+      historyApiFallback: true,
+      hot: true,
+      inline: true,
+      progress: true,
+
+      // display only errors to reduce the amount of output
+      stats: 'errors-only',
+
+      // parse host and port from env so this is easy
+      // to customize
+      host: process.env.HOST,
+      port: process.env.PORT
+    },
+    plugins: [
+      new webpack.HotModuleReplacementPlugin(),
+      new NpmInstallPlugin({
+        save: true // --save
+      })
+    ]
+  });
+}
+
+if(TARGET === 'build') {
+  module.exports = merge(common, {});
 }

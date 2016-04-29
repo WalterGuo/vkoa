@@ -11,12 +11,6 @@ const path = require("path");
 const views = require("koa-render");
 const logger = require('koa-logger');
 
-const webpack = require('webpack');
-const webpackConfig = require('../../webpack.config.babel.js');
-let compiler = webpack(webpackConfig);
-let hotMiddleware = require("webpack-hot-middleware")(compiler);
-let webpackMiddleware = require("koa-webpack-dev-middleware");
-
 module.exports = function(app) {
   let env = app.env;
   app.use(bodyparser());
@@ -35,11 +29,5 @@ module.exports = function(app) {
     app.use(serve(path.join(config.root, 'node_modules')));
 
   }
-  if ('development' === env) {
-    app.use(webpackMiddleware(compiler,webpackConfig.devServer))
-    // app.use(function*(next) {
-    //   yield hotMiddleware.bind(null, this.req, this.res);
-    //   yield next;
-    // });
-  }
+
 };
