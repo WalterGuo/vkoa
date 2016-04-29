@@ -1,20 +1,17 @@
-const path = require('path');
-const merge = require('webpack-merge');
-const webpack = require('webpack');
-const NpmInstallPlugin = require('npm-install-webpack-plugin');
+var path = require('path');
+var HtmlwebpackPlugin = require('html-webpack-plugin');
+var webpack = require('webpack');
 
-const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
   app: path.join(__dirname, 'client/application'),
   build: path.join(__dirname, '.tmp/build')
 };
 
-process.env.BABEL_ENV = TARGET;
+const TARGET = process.env.npm_lifecycle_event;
+process.env.BABEL_ENV = TARGET
 
-const common = {
-  entry: {
-    app: PATHS.app
-  },
+module.exports = {
+  entry: PATHS.app,
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
@@ -24,48 +21,35 @@ const common = {
   },
   module: {
     loaders: [
-      {
-        test: /\.css$/,
-        loaders: ['style', 'css'],
-        include: PATHS.app
-      },
-      {
-        test: /\.jsx?$/,
-        loaders: ['babel?cacheDirectory'],
-        include: PATHS.app
-      }
-    ]
-  }
-};
-
-if(TARGET === 'start' || !TARGET) {
-  module.exports = merge(common, {
-    devtool: 'eval-source-map',
-    devServer: {
-      contentBase: PATHS.build,
-
-      historyApiFallback: true,
-      hot: true,
-      inline: true,
-      progress: true,
-
-      // display only errors to reduce the amount of output
-      stats: 'errors-only',
-
-      // parse host and port from env so this is easy
-      // to customize
-      host: process.env.HOST,
-      port: process.env.PORT
+    {
+      test: /\.css$/,
+      loaders: ['style', 'css'],
+      include: PATHS.app
     },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new NpmInstallPlugin({
-        save: true // --save
-      })
-    ]
-  });
-}
-
-if(TARGET === 'build') {
-  module.exports = merge(common, {});
-}
+    {
+      test: /\.jsx?$/,
+      loader: 'babel',
+      include: PATHS.app,
+      query: {
+        presets: ['react', 'es2015']
+      }
+    }]
+  },
+  devServer: {
+    hot: true,
+    inline: true,
+    progress: true,
+    historyApiFallback: true,
+    stats: {
+      colors:true
+    },
+    port: 1235,
+    host: '127.0.0.1'
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new HtmlwebpackPlugin({
+      title: 'My app'
+    })
+  ]
+};
