@@ -4,11 +4,11 @@
 
 let webpack = require('webpack');
 let path = require('path');
-let publicPath = '/';
-
+let publicPath = 'http://localhost:1235/';
+let hotMiddlewareScript = 'webpack-hot-middleware/client?http://localhost:1235/__webpack_hmr';
 module.exports = {
   entry: {
-    'index': './client/application/index.js',
+    index: [hotMiddlewareScript,'./client/application/index.js'],
   },
   module: {
     loaders: [
@@ -36,7 +36,13 @@ module.exports = {
     'react-router': 'ReactRouter',
   },
   output: {
-    path: '.tmp/build',
+    path: path.resolve('.tmp/build'),
     filename: '[name].bundle.js',
-  }
+  },
+  devtool: 'source-map',
+  plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ],
 }

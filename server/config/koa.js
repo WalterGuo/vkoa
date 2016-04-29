@@ -11,10 +11,11 @@ const path = require("path");
 const views = require("koa-render");
 const logger = require('koa-logger');
 
-let webpackDevMiddleware = require('koa-webpack-dev-middleware')
-  let webpack = require('webpack')
-  let webpackConf = require('../../webpack.config.babel')
-  let compiler = webpack(webpackConf)
+const webpack = require('webpack');
+const webpackConfig = require('../../webpack.config.babel.js');
+let compiler = webpack(webpackConfig);
+let hotMiddleware = require("webpack-hot-middleware")(compiler);
+let webpackMiddleware = require("koa-webpack-dev-middleware");
 
 module.exports = function(app) {
   let env = app.env;
@@ -33,16 +34,12 @@ module.exports = function(app) {
     app.use(serve(path.join(config.root, 'client')));
     app.use(serve(path.join(config.root, 'node_modules')));
 
-
-      // 为使用Koa做服务器配置koa-webpack-dev-middleware
-      app.use(webpackDevMiddleware(compiler, webpackConf.devServer))
-
-      // 为实现HMR配置webpack-hot-middleware
-      let hotMiddleware = require("webpack-hot-middleware")(compiler);
-      // Koa对webpack-hot-middleware做适配
-      app.use(function* (next) {
-        yield hotMiddleware.bind(null, this.req, this.res);
-        yield next;
-      });
+  }
+  if ('development' === env) {
+    app.use(webpackMiddleware(compiler,webpackConfig.devServer))
+    // app.use(function*(next) {
+    //   yield hotMiddleware.bind(null, this.req, this.res);
+    //   yield next;
+    // });
   }
 };
