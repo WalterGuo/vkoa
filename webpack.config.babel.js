@@ -1,5 +1,5 @@
 var path = require('path');
-var HtmlwebpackPlugin = require('html-webpack-plugin');
+var NpmInstallPlugin = require('npm-install-webpack-plugin');
 var webpack = require('webpack');
 
 const PATHS = {
@@ -13,7 +13,10 @@ process.env.BABEL_ENV = TARGET
 module.exports = {
   entry: PATHS.app,
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx'],
+    root: [
+      path.resolve('./node_modules'),
+    ]
   },
   output: {
     path: PATHS.build,
@@ -35,21 +38,28 @@ module.exports = {
       }
     }]
   },
+  externals: {
+    'react': 'React',
+    'react-dom': 'ReactDOM',
+    'react-router': 'ReactRouter',
+  },
   devServer: {
-    hot: true,
+    contentBase: PATHS.build, //Relative directory for base of server
+    devtool: 'eval',
+    hot: true, //Live-reload
     inline: true,
-    progress: true,
-    historyApiFallback: true,
-    stats: {
+    state:{
       colors:true
     },
     port: 1235,
     host: '127.0.0.1'
   },
+  devtool: 'source-map',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new HtmlwebpackPlugin({
-      title: 'vkoa'
+    new webpack.NoErrorsPlugin(),
+    new NpmInstallPlugin({
+      save: true // --save
     })
   ]
 };

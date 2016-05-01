@@ -12,38 +12,38 @@ export default class App extends React.Component {
       notes: [
         {
           id: uuid.v4(),
-          task: 'Learn Webpack'
+          task: 'Learn Webspacsk1'
         }, {
           id: uuid.v4(),
-          task: 'Learn React'
+          task: 'Learn React2'
         }, {
           id: uuid.v4(),
-          task: 'Do laundry'
+          task: 'Do laundry3'
         }
       ]
     };
+  }
+  addNote(e){
+    this.setState({
+      notes:this.state.notes.concat([{
+        id:uuid.v4(),
+        task:new Date+' New Tassk'
+      }])
+    });
   }
   render() {
     const notes = this.state.notes;
     return (
       <div>
 
-        <button onClick={this.addNote}>+</button>
+        <button onClick={e=>this.addNote(e)}>+</button>
 
         <ul>{notes.map(note => <li key={note.id}>{note.task}</li>)}</ul>
       </div>
     );
 
   }
-  // We are using an experimental feature known as property
-  // initializer here. It allows us to bind the method `this`
-  // to point at our *App* instance.
-  //
-  // Alternatively we could `bind` at `constructor` using
-  // a line, such as this.addNote = this.addNote.bind(this);
-  addNote(){
-    console.log(this);
 
-  };
+
 }
 ReactDOM.render(< App / >, app);
