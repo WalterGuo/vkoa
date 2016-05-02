@@ -12,13 +12,13 @@ export default class App extends React.Component {
       notes: [
         {
           id: uuid.v4(),
-          task: 'Learn Webpack'
+          task: 'Learn Webpacks'
         }, {
           id: uuid.v4(),
           task: 'Learn React2'
         }, {
           id: uuid.v4(),
-          task: 'Do laundry3'
+          task: 'Do lkllll'
         }
       ]
     };
@@ -27,7 +27,7 @@ export default class App extends React.Component {
     this.setState({
       notes:this.state.notes.concat([{
         id:uuid.v4(),
-        task:new Date+' New Tassk'
+        task:new Date().getTime()+' 测试'
       }])
     });
   }
