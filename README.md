@@ -6,7 +6,7 @@
 
 ###搭建本地环境
 + npm install
-+ npm run dev
++ npm run dev & npm start
 
 
 ##License##
