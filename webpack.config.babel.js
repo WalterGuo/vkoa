@@ -16,7 +16,7 @@ const options = {
   devServerPort: 2333,
   publicPath: argv.devServer ? '/.tmp/' : '',
   statsExclude: [/node_modules/],
-  outputPath: '../build',
+  outputPath: '.tmp/build',
   outputJs: 'bundle.js',
   outputCss: 'app.css',
 }
@@ -29,6 +29,17 @@ const styleLoader =
   '!css?modules&importLoaders=1&localIdentName=[path][name]__[local]__[hash:base64:5]' +
   '!autoprefixer' +
   '!sass'
+
+
+// Plugins
+const optimizePlugins = options.optimize ? [
+  new webpack.optimize.UglifyJsPlugin(),
+  new webpack.optimize.DedupePlugin(),
+  new webpack.NoErrorsPlugin(),
+] : []
+const extraPlugins = [
+
+]
 const config = {
   //Entry points to the project
   entry: {
@@ -46,6 +57,9 @@ const config = {
     },
   },
   devtool: devtool,
+  eslint: {
+    fix: true,
+  },
   output: {
     path: path.join(__dirname, options.outputPath),
     filename: options.outputJs,
@@ -57,10 +71,16 @@ const config = {
     new webpack.PrefetchPlugin('react'),
     new webpack.PrefetchPlugin('react-dom'),
     new webpack.PrefetchPlugin('react-css-modules'),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
-  ],
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(environment),
+      },
+    }),
+  ].concat(optimizePlugins, extraPlugins),
   module: {
+    preLoaders: [
+      { test: /\.(js|jsx)/, loader: 'eslint-loader', exclude: /node_modules/ },
+    ],
     loaders: [
     {
       test: /\.scss/,
