@@ -36,7 +36,7 @@ export default class App extends React.Component {
     return (
       <div>
 
-        <button onClick={()=>this.addNote()}>+</button>
+        <button onClick={()=>this.addNote()}>增加Task</button>
 
         <ul>{notes.map(note => <li key={note.id}>{note.task}</li>)}</ul>
       </div>

@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const yargs = require('yargs');
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const TransferWebpackPlugin = require('transfer-webpack-plugin');
 const argv = yargs
   .alias('p', 'optimize')
@@ -43,11 +44,11 @@ const extraPlugins = [
 const config = {
   //Entry points to the project
   entry: {
-    app: [ './client/application/index.js' ],
+    app: ['./client/application/index.js'],
   },
   //Config options on how to interpret requires imports
   resolve: {
-    extensions: [ '', '.js', '.jsx', '.scss' ],
+    extensions: ['', '.js', '.jsx', '.scss'],
   },
   devServer: {
     host: 'localhost',
@@ -71,6 +72,9 @@ const config = {
     new webpack.PrefetchPlugin('react'),
     new webpack.PrefetchPlugin('react-dom'),
     new webpack.PrefetchPlugin('react-css-modules'),
+    new HtmlWebpackPlugin({
+      chunks: ['app']
+    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(environment),
@@ -79,8 +83,11 @@ const config = {
   ].concat(optimizePlugins, extraPlugins),
   module: {
     preLoaders: [
-      { test: /\.(js|jsx)/, loader: 'eslint-loader', exclude: /node_modules/ },
-    ],
+    {
+      test: /\.(js|jsx)/,
+      loader: 'eslint-loader',
+      exclude: /node_modules/
+    }, ],
     loaders: [
     {
       test: /\.scss/,
