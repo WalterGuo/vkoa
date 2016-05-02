@@ -12,7 +12,7 @@ export default class App extends React.Component {
       notes: [
         {
           id: uuid.v4(),
-          task: 'Learn Webspacsk1'
+          task: 'Learn Webpack'
         }, {
           id: uuid.v4(),
           task: 'Learn React2'
