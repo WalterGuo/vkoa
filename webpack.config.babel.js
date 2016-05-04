@@ -44,7 +44,7 @@ const extraPlugins = [
 const config = {
   //Entry points to the project
   entry: {
-    app: ['./client/application/index.js'],
+    app: ['./client/app/index.js'],
   },
   //Config options on how to interpret requires imports
   resolve: {

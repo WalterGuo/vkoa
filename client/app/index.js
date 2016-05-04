@@ -1,7 +1,7 @@
 import uuid from 'node-uuid';
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import Notes from './Notes';
 let app = document.createElement('div');
 document.body.appendChild(app);
 export default class App extends React.Component {
@@ -36,12 +36,13 @@ export default class App extends React.Component {
   }
   render() {
     const notes = this.state.notes;
+    console.log(notes);
     return (
       <div>
 
         <button onClick={()=>this.addNote()}>增加Task</button>
 
-        <ul>{notes.map(note => <li key={note.id} onClick={()=>this.editNote()}>{note.task}</li>)}</ul>
+        <Notes notes = {notes}/>
       </div>
     );
 
