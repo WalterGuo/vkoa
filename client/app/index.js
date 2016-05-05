@@ -34,13 +34,28 @@ export default class App extends React.Component {
       }])
     });
   }
+  editNote = (id, task) => {
+    if(!task.trim()) {
+      return;
+    }
+
+    const notes = this.state.notes.map(note => {
+      if(note.id === id && task) {
+        note.task = task;
+      }
+
+      return note;
+    });
+
+    this.setState({notes});
+  };
   render() {
     const notes = this.state.notes;
     return (
       <div>
 
         <button onClick={this.addNote}>增加Task</button>
-        <Notes notes = {notes}/>
+        <Notes notes = {notes} onEdit={this.editNote} />
       </div>
     );
 

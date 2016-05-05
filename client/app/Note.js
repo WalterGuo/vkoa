@@ -4,13 +4,11 @@ export default class Note extends React.Component {
   constructor(props) {
     super(props);
 
-    // Track `editing` state.
     this.state = {
       editing: false
     };
   }
   render() {
-    // Render the component differently based on state.
     if(this.state.editing) {
       return this.renderEdit();
     }
@@ -43,9 +41,8 @@ export default class Note extends React.Component {
     }
   };
   finishEdit = (e) => {
-
+    console.log(e);
     const value = e.target.value;
-
     if(this.props.onEdit) {
       this.props.onEdit(value);
 
