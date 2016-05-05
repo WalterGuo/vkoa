@@ -2,8 +2,7 @@ import uuid from 'node-uuid';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Notes from './Notes';
-let app = document.createElement('div');
-document.body.appendChild(app);
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -22,9 +21,6 @@ export default class App extends React.Component {
         }
       ]
     };
-  }
-  editNote(){
-    console.log(this);
   }
   addNote =  () =>{
     this.setState({
@@ -63,4 +59,5 @@ export default class App extends React.Component {
 
 
 }
-ReactDOM.render(< App / >, app);
+
+ReactDOM.render(< App / >, document.getElementById('app'));
