@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const path = require('path');
 const yargs = require('yargs');
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const TransferWebpackPlugin = require('transfer-webpack-plugin');
 const argv = yargs
   .alias('p', 'optimize')
@@ -15,9 +14,9 @@ const options = {
   optimize: argv.optimize,
   devServer: argv.devServer,
   devServerPort: 2333,
-  publicPath: argv.devServer ? '/.tmp/' : '',
+  publicPath: argv.devServer ? '/build/' : '',
   statsExclude: [/node_modules/],
-  outputPath: '.tmp/build',
+  outputPath: 'build',
   outputJs: 'bundle.js',
   outputCss: 'app.css',
 }
@@ -39,12 +38,12 @@ const optimizePlugins = options.optimize ? [
   new webpack.NoErrorsPlugin(),
 ] : []
 const extraPlugins = [
-
 ]
 const config = {
   //Entry points to the project
   entry: {
-    app: ['./client/app/index.js'],
+    app: ['webpack-dev-server/client?http://0.0.0.0:2333',
+  'webpack/hot/only-dev-server','./client/app/index.js'],
   },
   //Config options on how to interpret requires imports
   resolve: {
@@ -72,9 +71,8 @@ const config = {
     new webpack.PrefetchPlugin('react'),
     new webpack.PrefetchPlugin('react-dom'),
     new webpack.PrefetchPlugin('react-css-modules'),
-    new HtmlWebpackPlugin({
-      chunks: ['app']
-    }),
+
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(environment),

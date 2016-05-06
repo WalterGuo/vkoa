@@ -24,7 +24,7 @@ module.exports = function(app) {
   }
 
   if ('development' === env || 'test' === env) {
-    app.use(serve(path.join(config.root, '.tmp')));
+    app.use(serve(path.join(config.root, 'build')));
     app.use(serve(path.join(config.root, 'client')));
     app.use(serve(path.join(config.root, 'node_modules')));
 

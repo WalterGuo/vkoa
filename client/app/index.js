@@ -2,7 +2,8 @@ import uuid from 'node-uuid';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Notes from './Notes';
-
+let app = document.createElement('div');
+ document.body.appendChild(app);
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -11,7 +12,7 @@ export default class App extends React.Component {
       notes: [
         {
           id: uuid.v4(),
-          task: 'Learn Webpacks'
+          task: 'Learn Webpack'
         }, {
           id: uuid.v4(),
           task: 'Learn React2'
@@ -60,4 +61,4 @@ export default class App extends React.Component {
 
 }
 
-ReactDOM.render(< App / >, document.getElementById('app'));
+ReactDOM.render(< App / >, app);
