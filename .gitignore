@@ -27,9 +27,7 @@ tags
 dist
 dist_online
 client/bower_components
-
-=======
->>>>>>> 2358628cdcd48d8ff911a755d7eff7deee6488b5
+server/nginx
 # Logs
 logs
 *.log
