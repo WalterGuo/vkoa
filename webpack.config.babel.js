@@ -13,7 +13,7 @@ const options = {
   development: argv.development,
   optimize: argv.optimize,
   devServer: argv.devServer,
-  devServerPort: 2333,
+  devServerPort: 1234,
   publicPath: argv.devServer ? '/build/' : '',
   statsExclude: [/node_modules/],
   outputPath: 'build',
@@ -37,24 +37,32 @@ const optimizePlugins = options.optimize ? [
   new webpack.optimize.DedupePlugin(),
   new webpack.NoErrorsPlugin(),
 ] : []
-const extraPlugins = [
-]
+const extraPlugins = []
 const config = {
   //Entry points to the project
   entry: {
-    app: ['webpack-dev-server/client?http://0.0.0.0:2333',
-  'webpack/hot/only-dev-server','./client/app/index.js'],
+    app: ['webpack-hot-middleware/client','./client/app/index.js'],
   },
   //Config options on how to interpret requires imports
   resolve: {
     extensions: ['', '.js', '.jsx', '.scss'],
   },
   devServer: {
-    host: 'localhost',
-    port: options.devServerPort,
+    // host: 'localhost',
+    // port: options.devServerPort,
+    // stats: {
+    //   exclude: options.statsExclude,
+    //   colors:true
+    // },
+    hot: true,
+    noInfo: false,
+    inline: true,
+    publicPath: "/",
     stats: {
-      exclude: options.statsExclude,
-    },
+      cached: false,
+      colors: true
+    }
+
   },
   devtool: devtool,
   eslint: {
@@ -71,7 +79,7 @@ const config = {
     new webpack.PrefetchPlugin('react'),
     new webpack.PrefetchPlugin('react-dom'),
     new webpack.PrefetchPlugin('react-css-modules'),
-
+    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
