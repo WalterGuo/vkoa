@@ -35,13 +35,13 @@ module.exports = function(app) {
     // app.use(serve(path.join(config.root, 'node_modules')));
 
 
-    let compiler = webpack(webpackConf)
-    app.use(require("koa-webpack-dev-middleware")(compiler, webpackConf.devServer));
-    let hotMiddleware = require("webpack-hot-middleware")(compiler);
-    app.use(function* (next) {
-      yield hotMiddleware.bind(null, this.req, this.res);
-      yield next;
-    });
+    // let compiler = webpack(webpackConf)
+    // app.use(require("koa-webpack-dev-middleware")(compiler, webpackConf.devServer));
+    // let hotMiddleware = require("webpack-hot-middleware")(compiler);
+    // app.use(function* (next) {
+    //   yield hotMiddleware.bind(null, this.req, this.res);
+    //   yield next;
+    // });
   }
 
 };
