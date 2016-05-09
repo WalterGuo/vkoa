@@ -41,7 +41,7 @@ const extraPlugins = []
 const config = {
   //Entry points to the project
   entry: {
-    app: ['webpack-hot-middleware/client','./client/app/index.js'],
+    app: ['webpack-hot-middleware/client?path=http://localhost:1234/__webpack_hmr','./client/app/index.js'],
   },
   //Config options on how to interpret requires imports
   resolve: {
@@ -79,7 +79,6 @@ const config = {
     new webpack.PrefetchPlugin('react'),
     new webpack.PrefetchPlugin('react-dom'),
     new webpack.PrefetchPlugin('react-css-modules'),
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env': {

@@ -34,7 +34,7 @@ module.exports = function(app) {
     app.use(serve(path.join(config.root, 'client')));
     // app.use(serve(path.join(config.root, 'node_modules')));
 
-
+    console.log(module.hot);
     let compiler = webpack(webpackConf)
     app.use(require("koa-webpack-dev-middleware")(compiler, webpackConf.devServer));
     let hotMiddleware = require("webpack-hot-middleware")(compiler);
