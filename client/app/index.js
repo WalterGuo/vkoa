@@ -3,58 +3,67 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Notes from './Notes';
 let app = document.createElement('div');
- document.body.appendChild(app);
+document.body.appendChild(app);
+if (module.hot) {
+  module.hot.accept();
+}
 export default class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       notes: [
-        {
-          id: uuid.v4(),
-          task: 'Learn Webpacks'
-        }, {
-          id: uuid.v4(),
-          task: 'Learn React2'
-        }, {
-          id: uuid.v4(),
-          task: 'Do lkllll'
-        }
-      ]
+      {
+        id: uuid.v4(),
+        task: 'Learn Webpacks'
+      }, {
+        id: uuid.v4(),
+        task: 'Learn React2'
+      }, {
+        id: uuid.v4(),
+        task: 'Do lkllll'
+      }]
     };
   }
-  addNote =  () =>{
+  addNote = () => {
     this.setState({
-      notes:this.state.notes.concat([{
-        id:uuid.v4(),
-        task:new Date().getTime()+' 测试一下'
+      notes: this.state.notes.concat([{
+        id: uuid.v4(),
+        task: new Date().getTime() + ' 测试'
       }])
     });
   }
   editNote = (id, task) => {
-    if(!task.trim()) {
+    if (!task.trim()) {
       return;
     }
 
     const notes = this.state.notes.map(note => {
-      if(note.id === id && task) {
+      if (note.id === id && task) {
         note.task = task;
       }
 
       return note;
     });
 
-    this.setState({notes});
+    this.setState({
+      notes
+    });
   };
   render() {
     const notes = this.state.notes;
-    console.log(notes);
-    return (
-      <div>
+    console.log(notes[0]);
+    return ( < div >
 
-        <button onClick={this.addNote}>增加Task</button>
-        <Notes notes = {notes} onEdit={this.editNote} />
-      </div>
+      < button onClick = {
+        this.addNote
+      } > 增加Task < /button> < Notes notes = {
+        notes
+      }
+      onEdit = {
+        this.editNote
+      }
+      /> < /div>
     );
 
   }
@@ -62,4 +71,4 @@ export default class App extends React.Component {
 
 }
 
-ReactDOM.render(< App / >, app);
+ReactDOM.render( < App / > , app);
