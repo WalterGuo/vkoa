@@ -21,11 +21,16 @@ export default class App extends React.Component {
       }]
     };
   }
+  deleteNote = (id,e)=>{
+    e.stopPropagation();
+    console.log(id);
+    console.log(e);
+  }
   addNote = () => {
     this.setState({
       notes: this.state.notes.concat([{
         id: uuid.v4(),
-        task: new Date().getTime() + ' 测试'
+        task: new Date().getTime() + ' 测试yixa'
       }])
     });
   }
@@ -48,7 +53,6 @@ export default class App extends React.Component {
   };
   render() {
     const notes = this.state.notes;
-    console.log(notes[0]);
     return ( < div >
 
       < button onClick = {
@@ -58,6 +62,9 @@ export default class App extends React.Component {
       }
       onEdit = {
         this.editNote
+      }
+      onDelete ={
+        this.deleteNote
       }
       /> < /div>
     );
