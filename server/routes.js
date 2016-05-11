@@ -22,8 +22,11 @@ module.exports = function(app) {
   });
   let book = require('./api/book');
   let user = require('./api/user');
+  let blog = require('./api/blog');
+
   app.use(mount('/api/book', book));
   app.use(mount('/api/user', user));
+  app.use(mount('/api/blog', blog));
 
   app.use(function*() {
     var err = new Error();
