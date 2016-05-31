@@ -6,7 +6,9 @@
   "scripts": {
     "start": "NODE_ENV=development nodemon --watch server --harmony server/app.js",
     "dev": "webpack-dev-server --content-base public -ds --config webpack.config.babel.js --watch --progress --colors --inline",
-    "build": "NODE_ENV=production webpack --config webpack.config.babel.js -p --progress --profile --colors"
+    "build": "NODE_ENV=production webpack --config webpack.config.babel.js -p --progress --profile --colors",
+    "test": "NODE_ENV=production webpack --config webpack.config.babel.js -p --progress --profile --colors"
+
   },
   "keywords": [
     "koa",
