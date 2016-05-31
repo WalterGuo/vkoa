@@ -4,6 +4,5 @@ node_js:
   - "5.1"
   - "4.3"
 before_script:
-  - npm install -g gulp
-  - npm start
+  - npm install -g webpack webpack-dev-server
 services: mongodb

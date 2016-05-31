@@ -1,5 +1,5 @@
 'use strict';
-let blog = require("./blogs.controller");
+let blog = require("./blog.controller");
 const koa = require('koa');
 const app = new koa();
 const router = require('koa-router')();
