@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const yargs = require('yargs');
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 // const TransferWebpackPlugin = require('transfer-webpack-plugin');
 const argv = yargs
   .alias('p', 'optimize')
@@ -41,11 +42,11 @@ const extraPlugins = []
 const config = {
   //Entry points to the project
   entry: {
-    app: ['webpack-hot-middleware/client?path=http://localhost:1234/__webpack_hmr','./client/app/index.js'],
+    app: ['webpack-hot-middleware/client?path=http://localhost:1234/__webpack_hmr', './client/app/index.js'],
   },
   //Config options on how to interpret requires imports
   resolve: {
-    extensions: ['', '.js', '.jsx', '.scss'],
+    extensions: ['', '.js', '.jsx', '.scss','.css'],
   },
   devServer: {
     // host: 'localhost',
@@ -80,6 +81,7 @@ const config = {
     new webpack.PrefetchPlugin('react-dom'),
     new webpack.PrefetchPlugin('react-css-modules'),
     new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin("[name].css"),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(environment),
@@ -94,6 +96,10 @@ const config = {
       exclude: /node_modules/
     }, ],
     loaders: [
+    {
+      test: /\.css/,
+      loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+    },
     {
       test: /\.scss/,
       loader: styleLoader,
