@@ -33,7 +33,10 @@ module.exports = function(app) {
     app.use(serve(path.join(config.root, 'build')));
     app.use(serve(path.join(config.root, 'client')));
     // app.use(serve(path.join(config.root, 'node_modules')));
-
+    app.use(livereload({
+      // if you change livereload server port, set "port" option
+      port : 33333
+    }));
     console.log(module.hot);
     let compiler = webpack(webpackConf)
     app.use(require("koa-webpack-dev-middleware")(compiler, webpackConf.devServer));

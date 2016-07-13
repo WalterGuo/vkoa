@@ -28,9 +28,15 @@ gulp.task('scss',[],()=>{
     }))
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest('.tmp/static/'))
+    .pipe($.livereload());
+
 })
 
 gulp.task('serve',['scss'],()=>{
+  $.livereload.listen({
+    port: 33333
+  })
+  gulp.watch(['client/asset/scss/*.scss'], ['scss'])
 
 })
 gulp.task('default', ['clean'], () => {
