@@ -15,6 +15,24 @@ let NODE_PATH = path.join(__dirname, 'node_modules');
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
+gulp.task('scss',[],()=>{
+  return gulp.src(['client/asset/scss/*.scss','!client/asset/scss/**/*.scss'])
+    .pipe($.changed('.tmp/', {
+      extension: '.css'
+    }))
+    .pipe($.plumber())
+    .pipe($.sourcemaps.init())
+    .pipe($.sass().on('error', $.sass.logError))
+    .pipe($.autoprefixer({
+      browsers: ['> 1%', 'last 2 versions', 'Firefox ESR']
+    }))
+    .pipe($.sourcemaps.write())
+    .pipe(gulp.dest('.tmp/static/'))
+})
+
+gulp.task('serve',['scss'],()=>{
+
+})
 gulp.task('default', ['clean'], () => {
 
   gulp.start('serve');
