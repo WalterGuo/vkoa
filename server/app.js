@@ -1,5 +1,5 @@
 'use strict'
-
+require('babel-polyfill');
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 const koa = require('koa');

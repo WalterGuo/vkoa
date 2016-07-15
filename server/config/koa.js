@@ -1,20 +1,13 @@
-/**
- * Koa config
- */
-
 'use strict';
-
-const config = require('./environment');
-const bodyparser = require('koa-bodyparser');
-const serve = require("koa-static");
-const path = require("path");
-const views = require("koa-render");
-const logger = require('koa-logger');
-// const webpackDevMiddleware = require('koa-webpack-dev-middleware');
-const webpack = require('webpack');
-const webpackConf = require('../../webpack.config.babel');
-// const webpackDevMiddleware = require('webpack-dev-middleware');
-
+import config from './environment';
+import bodyparser from 'koa-bodyparser';
+import serve from 'koa-static';
+import path from 'path';
+import views from 'koa-render';
+import logger from 'koa-logger';
+import webpack from 'webpack';
+import webpackConf from '../../webpack.config.babel';
+import livereload from 'koa-livereload';
 
 
 module.exports = function(app) {
@@ -23,7 +16,6 @@ module.exports = function(app) {
   app.use(views(config.root + '/server/views', 'jade'));
   app.use(logger());
   if ('production' === env) {
-    // app.use(favicon(__dirname + '/public/favicon.ico'));
     app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
     app.use(serve(path.join(config.root, 'public')));
     app.set('appPath', config.root + '/public');
@@ -32,17 +24,13 @@ module.exports = function(app) {
   if ('development' === env || 'test' === env) {
     app.use(serve(path.join(config.root, 'build')));
     app.use(serve(path.join(config.root, 'client')));
-    // app.use(serve(path.join(config.root, 'node_modules')));
     app.use(livereload({
-      // if you change livereload server port, set "port" option
       port : 33333
     }));
-    console.log(module.hot);
     let compiler = webpack(webpackConf)
-    app.use(require("koa-webpack-dev-middleware")(compiler, webpackConf.devServer));
-    let hotMiddleware = require("webpack-hot-middleware")(compiler);
+    app.use(require('koa-webpack-dev-middleware')(compiler, webpackConf.devServer));
+    let hotMiddleware = require('webpack-hot-middleware')(compiler);
     app.use(function* (next) {
-      console.log(next);
       yield hotMiddleware.bind(null, this.req, this.res);
       yield next;
     });
