@@ -61,7 +61,6 @@
   "devDependencies": {
     "babel-cli": "^6.10.1",
     "babel-eslint": "^6.0.4",
-    "babel-polyfill": "^6.9.1",
     "babel-preset-stage-0": "^6.5.0",
     "babel-preset-stage-1": "^6.5.0",
     "eslint": "^2.9.0",

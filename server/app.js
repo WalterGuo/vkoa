@@ -1,12 +1,14 @@
 'use strict'
-require('babel-polyfill');
+import "babel-polyfill";
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-const koa = require('koa');
+import koa from 'koa';
 const app = new koa();
-const config = require('./config/environment');
-const mongoose = require("mongoose");
-const _ = require('lodash');
+import config from './config/environment';
+
+import mongoose from "mongoose";
+import _ from 'lodash';
+
 let vkoaMongo = mongoose.createConnection(config.mongo.uri);
 vkoaMongo.on('error', function(err) {
     console.error('vkoaMongo mongodb connection failed!', err);
