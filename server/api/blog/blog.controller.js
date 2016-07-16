@@ -1,6 +1,6 @@
 'use strict';
 
-let Blog = require('./blog.model');
+import Blog from './blog.model'
 
 exports.find = function*(next){
   var blogs = yield Blog.find().exec();

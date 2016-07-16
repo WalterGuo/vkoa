@@ -1,6 +1,6 @@
 'use strict';
 
-const mount = require('koa-mount');
+import mount from 'koa-mount';
 
 module.exports = function(app) {
 
