@@ -9,14 +9,14 @@ import runSequence from 'run-sequence';
 const $ = gulpLoadPlugins();
 const clientDistFolder = 'dist/public';
 const serverDistFolder = 'dist/server';
-let NODE_ENV ="development";
+let NODE_ENV = "development";
 
 let NODE_PATH = path.join(__dirname, 'node_modules');
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('scss',[],()=>{
-  return gulp.src(['client/asset/scss/*.scss','!client/asset/scss/**/*.scss'])
+gulp.task('scss', [], () => {
+  return gulp.src(['client/asset/scss/*.scss', '!client/asset/scss/**/*.scss'])
     .pipe($.changed('.tmp/', {
       extension: '.css'
     }))
@@ -32,7 +32,7 @@ gulp.task('scss',[],()=>{
 
 })
 
-gulp.task('serve',['scss'],()=>{
+gulp.task('serve', ['scss'], () => {
   $.livereload.listen({
     port: 33333
   })

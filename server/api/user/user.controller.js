@@ -5,36 +5,38 @@ let omitList = ['salt', 'hashedPassword', 'activationCode', 'resetPasswordToken'
 
 import mailUtil from '../../util/mail';
 
-exports.find = function*(next){
-  var users = yield User.find({},'-salt -hashedPassword').exec();
+exports.find = function*(next) {
+  var users = yield User.find({}, '-salt -hashedPassword').exec();
   this.response.body = {
-    status:0,
-    msg:users
+    status: 0,
+    msg: users
   };
 
 }
-exports.register = function *(next){
-  let input =this.request.body;
+exports.register = function*(next) {
+  let input = this.request.body;
   let user;
   try {
-    user =  User.findOne({email:input.email});
+    user = User.findOne({
+      email: input.email
+    });
     user = yield user.exec();
-    if(user&&user._id){
+    if (user && user._id) {
 
-      this.response.body={
-        status:500,
-        errCode:'50001',
+      this.response.body = {
+        status: 500,
+        errCode: '50001',
         errMsg: 'user exist'
       }
       return;
     }
-    let option ={
-      email:input.email,
-      nickname:input.nickname,
-      password:input.password,
-      header:input.header,
-      phone:input.phone,
-      sex:input.sex
+    let option = {
+      email: input.email,
+      nickname: input.nickname,
+      password: input.password,
+      header: input.header,
+      phone: input.phone,
+      sex: input.sex
     }
     yield mailUtil.sendValidateCode(input.email);
     user = new User(option).save();
@@ -43,8 +45,8 @@ exports.register = function *(next){
   }
   this.status = 201;
   this.response.body = {
-    status:0,
-    msg:_.omit(user, omitList)
+    status: 0,
+    msg: _.omit(user, omitList)
   };
 
 }
