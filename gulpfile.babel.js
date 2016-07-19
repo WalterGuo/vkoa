@@ -31,6 +31,17 @@ gulp.task('scss', [], () => {
     .pipe($.livereload());
 
 })
+gulp.task('jade',[],()=>{
+  return gulp.src(['client/**/*.jade','!client/includes/**/*.jade'])
+    .pipe($.changed('.tmp/', {
+      extension: '.html'
+    }))
+    .pipe($.jade({
+      client: false
+    }))
+    .pipe(gulp.dest('.tmp/'))
+    .pipe($.livereload());
+})
 
 gulp.task('serve', ['scss'], () => {
   $.livereload.listen({
