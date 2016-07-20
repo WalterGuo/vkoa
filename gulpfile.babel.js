@@ -43,7 +43,7 @@ gulp.task('jade',[],()=>{
     .pipe($.livereload());
 })
 
-gulp.task('serve', ['scss'], () => {
+gulp.task('serve', ['scss','jade'], () => {
   $.livereload.listen({
     port: 33333
   })
