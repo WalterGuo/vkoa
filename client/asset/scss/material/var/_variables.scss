@@ -3,13 +3,10 @@
 	$css-path: ".";
 
 // colour
-	// @import "colours";
+	@import "colors";
 
-// font
-	//@import url(https://fonts.googleapis.com/css?family=Roboto:300,300italic,400,400italic,500,500italic);
-        @import "fonts";
 
-	$font-fam:           Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	$font-fam:           PingFang SC,'lucida grande','lucida sans unicode',lucida,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Sans GB,Microsoft Yahei,Microsoft Jhenghei,sans-serif;
 	$font-fam-mono:      Monaco, Menlo, Consolas, "Courier New", monospace;
 	$font-fam-serif:     Georgia, serif;
 
@@ -77,3 +74,16 @@
 	$content-base: 20;
 	$header-base:  30;
 	$top-base:     40;
+
+
+	/* 1. Colors
+	   ========================================================================== */
+
+	$primary-color: color("materialize-red", "lighten-2") !default;
+	$primary-color-light: lighten($primary-color, 15%) !default;
+	$primary-color-dark: darken($primary-color, 15%) !default;
+
+	$secondary-color: color("teal", "lighten-1") !default;
+	$success-color: color("green", "base") !default;
+	$error-color: color("red", "base") !default;
+	$link-color: color("light-blue", "darken-1") !default;
