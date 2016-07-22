@@ -16,7 +16,7 @@ let NODE_PATH = path.join(__dirname, 'node_modules');
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 gulp.task('scss', [], () => {
-  return gulp.src(['client/asset/scss/*.scss', '!client/asset/scss/**/*.scss'])
+  return gulp.src(['client/asset/scss/*.scss'])
     .pipe($.changed('.tmp/', {
       extension: '.css'
     }))
@@ -48,6 +48,7 @@ gulp.task('serve', ['scss','jade'], () => {
     port: 33333
   })
   gulp.watch(['client/asset/scss/*.scss'], ['scss'])
+  gulp.watch(['client/**/*.jade'], ['jade'])
 
 })
 gulp.task('default', ['clean'], () => {
