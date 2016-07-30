@@ -1,9 +1,9 @@
 'use strict';
 
-import User from './user.model';
+const User = require('./user.model');
 let omitList = ['salt', 'hashedPassword', 'activationCode', 'resetPasswordToken', 'resetPasswordExpires'];
 
-import mailUtil from '../../util/mail';
+const mailUtil = require('../../util/mail');
 
 exports.find = function*(next) {
   var users = yield User.find({}, '-salt -hashedPassword').exec();

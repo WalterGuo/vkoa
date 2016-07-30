@@ -1,5 +1,4 @@
 'use strict'
-import "babel-polyfill";
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 import koa from 'koa';

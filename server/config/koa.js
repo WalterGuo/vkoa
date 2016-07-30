@@ -24,9 +24,9 @@ module.exports = function(app) {
   if ('development' === env || 'test' === env) {
     app.use(serve(path.join(config.root, 'build')));
     app.use(serve(path.join(config.root, 'client')));
-    app.use(livereload({
-      port : 33333
-    }));
+    // app.use(livereload({
+    //   port : 33333
+    // }));
     let compiler = webpack(webpackConf)
     app.use(require('koa-webpack-dev-middleware')(compiler, webpackConf.devServer));
     let hotMiddleware = require('webpack-hot-middleware')(compiler);
