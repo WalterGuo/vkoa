@@ -2,51 +2,39 @@
 
 const User = require('./user.model');
 let omitList = ['salt', 'hashedPassword', 'activationCode', 'resetPasswordToken', 'resetPasswordExpires'];
-
-const mailUtil = require('../../util/mail');
-
-exports.find = function*(next) {
-  var users = yield User.find({}, '-salt -hashedPassword').exec();
-  this.response.body = {
+import {isEmail,isMobilePhone} from '../../util';
+exports.find = async(ctx, next) => {
+  const users = await User.find({}, '-salt -hashedPassword').exec();
+  ctx.body = {
     status: 0,
-    msg: users
+    message: users
   };
 
 }
-exports.register = function*(next) {
-  let input = this.request.body;
-  let user;
-  try {
-    user = User.findOne({
-      email: input.email
-    });
-    user = yield user.exec();
-    if (user && user._id) {
+exports.create = async(ctx,next)=>{
+  const reqBody = ctx.request.body;
+  let schema={},errorText;
+  let email = reqBody.email,
+    name = reqBody.name,
+    password = reqBody.password,
+    phone = reqBody.phone,
+    header = reqBody.header;
 
-      this.response.body = {
-        status: 500,
-        errCode: '50001',
-        errMsg: 'user exist'
-      }
-      return;
+    if(!isEmail(email)){
+      ctx.throw(400, '邮箱格式不正确')
     }
-    let option = {
-      email: input.email,
-      nickname: input.nickname,
-      password: input.password,
-      header: input.header,
-      phone: input.phone,
-      sex: input.sex
+    if(!isMobilePhone(phone,'zh-CN')){
+      ctx.throw(400, '手机格式不正确')
     }
-    yield mailUtil.sendValidateCode(input.email);
-    user = new User(option).save();
-  } catch (err) {
-    this.throw(err);
-  }
-  this.status = 201;
-  this.response.body = {
-    status: 0,
-    msg: _.omit(user, omitList)
-  };
-
+    schema.email = email;
+    schema.name = name;
+    schema.password = password;
+    schema.phone = phone;
+    schema.header = header;
+    const user = await new User(schema).save();
+    ctx.status = 201;
+    ctx.body = {
+      status: 0,
+      message: user
+    };
 }

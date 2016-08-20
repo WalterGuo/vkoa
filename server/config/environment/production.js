@@ -15,6 +15,6 @@ module.exports = {
     uri: process.env.MONGOLAB_URI ||
       process.env.MONGOHQ_URL ||
       process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME ||
-      'mongodb://videojj:c0ed2059079ce7345594791a5c9293ed@test.videojj.com:20001/blog'
+      'mongodb://localhost:27017/vk'
   }
 };

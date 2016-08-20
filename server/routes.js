@@ -1,40 +1,42 @@
 'use strict';
 
-import mount from 'koa-mount';
+const router = require('koa-router')();
+
+const users = require('./api/user');
+const videos = require('./api/video');
 
 module.exports = function(app) {
 
-  app.use(function*(next) {
-    try {
-      yield next;
-    } catch (err) {
-      this.status = 500;
-      this.body = err.message;
-      this.app.emit('error', err, this);
-    }
+
+  app.use(async(ctx, next) => {
+      try {
+        await next();
+      } catch (err) {
+        // will only respond with JSON
+        ctx.status = err.statusCode || err.status || 500;
+        ctx.body = {
+          message: err.message
+        };
+      }
+    })
+    // logger
+  app.use(async(ctx, next) => {
+    const start = new Date();
+    await next();
+    const ms = new Date() - start;
+    console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
+  });
+  router.use('/api/user', users.routes(), users.allowedMethods());
+  router.use('/api/video', videos.routes(), videos.allowedMethods());
+
+  app.use(router.routes(), router.allowedMethods());
+
+
+  app.use(async(ctx, next) => {
+    console.log("404");
+    await ctx.render('404', {});
   });
 
-  app.use(function*(next) {
-    var start = new Date;
-    yield next;
-    var ms = new Date - start;
-    this.set('X-Response-Time', ms + 'ms');
-  });
-  let book = require('./api/book');
-  let user = require('./api/user');
-  let blog = require('./api/blog');
 
-  app.use(mount('/api/book', book));
-  app.use(mount('/api/user', user));
-  app.use(mount('/api/blog', blog));
-
-  app.use(function*() {
-    var err = new Error();
-    err.status = 404;
-    this.status = 404;
-    this.body = yield this.render('404', {
-      error: err
-    });
-  });
 
 };

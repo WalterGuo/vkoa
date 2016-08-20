@@ -1,21 +1,39 @@
-'use strict';
+const nodemailer = require('nodemailer');
 
-// Cb2bl2a0MJ66xJ1Z
-let nodemailer = require('nodemailer');
-let smtpTransport = nodemailer.createTransport('smtps://no-reply@virgo.one:gQf3UaHv5yfZ084o@smtp.exmail.qq.com');
+const EmailTemplate = require('email-templates').EmailTemplate;
+const QQexConfig = require('../../config/config');
 
-
-let sendMail = function *(receiverEmail,name){
-  let mailOptions = {
-    from: 'no-reply<no-reply@virgo.one>', // sender address
-    to: receiverEmail, // list of receivers
-    subject: name, // Subject line
-    text: 'Hello world ✔', // plaintext body
-    html: '<b>Hello world ✔</b>' // html body
-  };
-  console.log("mail send");
-  return yield smtpTransport.sendMail(mailOptions);
+const connection = {
+  service: 'QQex',
+  auth: {
+    user: QQexConfig.QQex.email,
+    pass: QQexConfig.QQex.pass
+  }
 }
-exports.sendValidateCode = function(receiverEmail){
-  return sendMail(receiverEmail, "账户确认邮件");
+const smtpTransport = nodemailer.createTransport(connection);
+
+const templatesDir = path.resolve(__dirname, 'views')
+const smtpSendMail = function(templateName,receiverEmail, locals,callback) {
+
+  let template = new EmailTemplate(path.join(templatesDir, templateName));
+  template.render(locals, function(err, results) {
+    if (err) {
+      return console.error(err)
+    }
+
+    return smtpTransport.sendMail({
+      from: '白玉京 <no-reply@virgo.one>',
+      to: receiverEmail,
+      subject: '欢迎注册白玉京－账户Email验证',
+      html: results.html,
+      "attachments":attachments
+    }, function(err, res) {
+      if (err) {
+        if(callback) return callback(err,null);
+      }
+      if(callback) return callback(null,res);
+      return res;
+    })
+  })
+
 }

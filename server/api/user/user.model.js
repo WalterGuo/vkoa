@@ -6,8 +6,9 @@ let mongoose = require('mongoose'),
  crypto = require('crypto');
 
 let UserSchema = new Schema({
-  nickname: {
+  name: {
     type: String,
+    unique: true
   },
   email: {
     type: String,
@@ -28,7 +29,8 @@ let UserSchema = new Schema({
     default: 0
   },
   phone: {
-    type: Number
+    type: Number,
+    unique: true
   }
 });
 UserSchema.path('email').validate(function (email) {
